@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Your Name
+ * Copyright (c) 2025 Ryan Ellis
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -17,10 +17,25 @@ module tt_um_uwasic_onboarding_ryan_ellis (
 );
 
   // All output pins must be assigned. If not used, assign to 0.
-  assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
-  assign uio_out = 0;
-  assign uio_oe  = 0;
   assign uio_oe = 7'hFF;
+
+  //wires for deserializer
+  wire read_write;
+  wire [6:0] addr;
+  wire [7:0] data;
+  wire deser_valid;
+
+  deserializer deserializer_inst (
+    .clk(clk),
+    .sclk(ui_in[0]),
+    .copi(ui_in[1]),
+    .n_cs(ui_in[2]),
+    .rst_n(rst_n),
+    .read_write(read_write),
+    .addr(addr),
+    .data(data),
+    .valid(deser_valid)
+  );
 
   // Create wires to refer to the values of the registers
   wire [7:0] en_reg_out_7_0;
@@ -28,6 +43,21 @@ module tt_um_uwasic_onboarding_ryan_ellis (
   wire [7:0] en_reg_pwm_7_0;
   wire [7:0] en_reg_pwm_15_8;
   wire [7:0] pwm_duty_cycle;
+
+  //instatiate the SPI module
+  spi_peripheral spi_peripheral_inst (
+    .clk(clk),
+    .rst_n(rst_n),
+    .read_write(read_write),
+    .valid(deser_valid),
+    .addr(addr),
+    .data(data),
+    .en_reg_out_7_0(en_reg_out_7_0),
+    .en_reg_out_15_8(en_reg_out_15_8),
+    .en_reg_pwm_7_0(en_reg_pwm_7_0),
+    .en_reg_pwm_15_8(en_reg_pwm_15_8),
+    .pwm_duty_cycle(pwm_duty_cycle)
+  );
 
   // Instantiate the PWM module
   pwm_peripheral pwm_peripheral_inst (

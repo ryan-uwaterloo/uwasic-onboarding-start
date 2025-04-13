@@ -9,12 +9,20 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+This SPI-attached PWM peripheral registers in SPI inputs w/ a CDC chain then updates controller as per write requests, passing them on to the PWN driver.
+
+## Register Map
+
+| Addr | Register | Description | Reset Value |
+|----|----|----|----|
+| `0x00` | `en_reg_out_7_0` | Enable outputs on `uo_out[7:0]`   | `0x00`   |
+| `0x01` | `en_reg_out_15_8` | Enable outputs on `uio_out[7:0]`   | `0x00`   |
+| `0x02` | `en_reg_pwm_7_0` | Enable PWM for `uo_out[7:0]`   | `0x00`   |
+| `0x03` | `en_reg_pwm_15_8` | Enable PWM for `uio_out[7:0]`   | `0x00`   |
+| `0x04` | `pwm_duty_cycle` | PWM Duty Cycle ( `0x00`=0%, `0xFF`=100%) | `0x00`   |
+
 
 ## How to test
 
-Explain how to use your project
+Push to github and pray :D
 
-## External hardware
-
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
