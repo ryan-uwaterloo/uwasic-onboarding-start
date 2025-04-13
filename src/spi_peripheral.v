@@ -1,6 +1,6 @@
 module spi_peripheral (
-    input clk,
-    input rst_n,
+    input wire clk,
+    input wire rst_n,
     input wire read_write,
     input wire valid,
     input wire [6:0] addr,

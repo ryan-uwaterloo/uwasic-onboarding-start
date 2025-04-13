@@ -31,13 +31,13 @@ end
 
 reg [3:0] txn_count; //3 bits to count to 16
 
-always @((posedge clk && sclk_cdc[CDC_LEN]) || !rst_n) begin //asynch reset lol because sclk not guaranteed when resetting
+always @(posedge clk or negedge rst_n) begin //asynch reset lol because sclk not guaranteed when resetting
     if (!rst_n) begin
         txn_count <= 15;
         read_write <= 0;
         addr <= 0;
         data <= 0;
-    end else begin
+    end else if (sclk_cdc[CDC_LEN]) begin
         if(!n_cs_cdc[CDC_LEN-1]) begin //this is valid txn
             txn_count <= txn_count + 1;
             valid <= txn_count == 14;
