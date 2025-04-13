@@ -1,5 +1,5 @@
 module deserializer #(
-    parameter  CDC_LEN = 2,
+    parameter  CDC_LEN = 2
 ) (
     input wire clk,
     input wire sclk,
