@@ -28,7 +28,7 @@ module spi_peripheral (
                     7'h02: en_reg_pwm_7_0   <= data;
                     7'h03: en_reg_pwm_15_8  <= data;
                     7'h04: pwm_duty_cycle   <= data;
-                    default: //do nothing if not valid addr
+                    default: ; //do nothing if not valid addr
                 endcase
             end
         end
