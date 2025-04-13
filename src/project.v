@@ -17,7 +17,7 @@ module tt_um_uwasic_onboarding_ryan_ellis (
 );
 
   // All output pins must be assigned. If not used, assign to 0.
-  assign uio_oe = 7'hFF;
+  assign uio_oe = 8'hFF;
 
   //wires for deserializer
   wire read_write;

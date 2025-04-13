@@ -14,7 +14,7 @@ module spi_peripheral (
 );
 
     always @(posedge clk) begin
-        if (!reset_n) begin //resets
+        if (!rst_n) begin //resets
             en_reg_out_7_0 <= 0;
             en_reg_out_15_8 <= 0;
             en_reg_pwm_7_0 <= 0;
