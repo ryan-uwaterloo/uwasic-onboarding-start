@@ -13,7 +13,7 @@ module spi_peripheral (
     output reg [7:0] pwm_duty_cycle
 );
 
-    always @(posedge clk) begin
+    always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin //resets
             en_reg_out_7_0 <= 0;
             en_reg_out_15_8 <= 0;
