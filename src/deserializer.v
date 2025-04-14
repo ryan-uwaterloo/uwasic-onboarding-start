@@ -31,7 +31,7 @@ end
 
 reg [3:0] txn_count; //3 bits to count to 16
 
-always @(posedge clk or negedge rst_n) begin //asynch reset lol because sclk not guaranteed when resetting
+always @(posedge clk) begin
     if (!rst_n) begin
         txn_count <= 15;
         read_write <= 0;
