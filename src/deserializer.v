@@ -30,6 +30,7 @@ always @(posedge clk) begin
 end
 
 reg [3:0] txn_count; //3 bits to count to 16
+reg waiting_next_sclk;
 
 always @(posedge clk or negedge rst_n) begin //asynch reset lol because sclk not guaranteed when resetting
     if (!rst_n) begin
@@ -37,18 +38,22 @@ always @(posedge clk or negedge rst_n) begin //asynch reset lol because sclk not
         read_write <= 0;
         addr <= 0;
         data <= 0;
-    end else if (sclk_cdc[CDC_LEN]) begin
-        if(!n_cs_cdc[CDC_LEN-1]) begin //this is valid txn
-            txn_count <= txn_count + 1;
-            valid <= txn_count == 14;
+        valid <= 0;
+    end else if (sclk_cdc[CDC_LEN] && sclk_cdc[CDC_LEN-1]) begin
+        if(!n_cs_cdc[CDC_LEN-1] && !waiting_next_sclk) begin //this is valid txn
+            txn_count <= txn_count - 1;
+            waiting_next_sclk <= 1; //only incr once per sclk
+            valid <= txn_count == 0;
             if(txn_count == 15)begin //is r_W
                 read_write <= copi_cdc[CDC_LEN-1];
-            end else if(txn_count >= 7) begin //if data
-                data[txn_count + 1] <= copi_cdc[CDC_LEN-1];
+            end else if(txn_count <= 7) begin //if data
+                data[txn_count[2:0]] <= copi_cdc[CDC_LEN-1]; //msb-first
             end else begin //is addr
-                addr[txn_count] <= copi_cdc[CDC_LEN-1];
+                addr[txn_count[2:0]] <= copi_cdc[CDC_LEN-1];
             end
         end
+    end else if (!sclk_cdc[CDC_LEN]) begin
+        waiting_next_sclk <= 0;
     end
 end
 
