@@ -52,7 +52,7 @@ always @(posedge clk or negedge rst_n) begin //asynch reset lol because sclk not
             addr[txn_count[2:0]] <= copi_cdc[CDC_LEN-1];
             end
         //end
-    end else begin //try removing this
+    end else if (!sclk_cdc[CDC_LEN]) begin
         waiting_next_sclk <= 0;
     end
 end
