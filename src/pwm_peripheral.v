@@ -17,7 +17,7 @@ module pwm_peripheral (
 );
 
     localparam clk_div_trig = 12; // Divide by (12+1)*256, yielding 3000 (3004.80769) Hz
-    reg [10:0] clk_counter;
+    reg [3:0] clk_counter; //save bits
     reg [7:0] pwm_counter;
     wire pwm_signal = (pwm_duty_cycle == 8'hFF) ? 1'b1 : (pwm_counter < pwm_duty_cycle); // 253 is 98.82% 254 is 99.21%, 255 is 100%, not 99.61%
 
@@ -35,6 +35,10 @@ module pwm_peripheral (
             out[7:0] <= en_reg_out_7_0;
             out[15:8] <= en_reg_out_15_8;
             // Apply PWM to each bit individually if enabled
+            // for (integer i = 0; i < 8; i = i + 1) begin
+            //     out[i]      <= en_reg_pwm_7_0[i]    ? (pwm_signal ? en_reg_out_7_0[i]   : 1'b0) : en_reg_out_7_0[i];
+            //     out[i+8]    <= en_reg_pwm_15_8[i]   ? (pwm_signal ? en_reg_out_15_8[i]  : 1'b0) : en_reg_out_15_8[i];
+            // end
             // Lower 8 bits
             if (en_reg_pwm_7_0[0]) out[0] <= (pwm_signal) ? en_reg_out_7_0[0] : 1'b0;
             if (en_reg_pwm_7_0[1]) out[1] <= (pwm_signal) ? en_reg_out_7_0[1] : 1'b0;
