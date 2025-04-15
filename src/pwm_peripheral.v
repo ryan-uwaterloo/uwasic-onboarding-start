@@ -32,32 +32,32 @@ module pwm_peripheral (
                 pwm_counter <= pwm_counter + 1;
                 clk_counter <= 0;
             end
-            out[7:0] <= en_reg_out_7_0;
-            out[15:8] <= en_reg_out_15_8;
+            // out[7:0] <= en_reg_out_7_0;
+            // out[15:8] <= en_reg_out_15_8;
             // Apply PWM to each bit individually if enabled
             // for (integer i = 0; i < 8; i = i + 1) begin
-            //     out[i]      <= en_reg_pwm_7_0[i]    ? (pwm_signal ? en_reg_out_7_0[i]   : 1'b0) : en_reg_out_7_0[i];
-            //     out[i+8]    <= en_reg_pwm_15_8[i]   ? (pwm_signal ? en_reg_out_15_8[i]  : 1'b0) : en_reg_out_15_8[i];
+            out[7:0]  <= ((en_reg_pwm_7_0  & {8{pwm_counter}}) | ~en_reg_pwm_7_0)  & en_reg_out_7_0;
+            out[15:8] <= ((en_reg_pwm_15_8 & {8{pwm_counter}}) | ~en_reg_pwm_15_8) & en_reg_out_15_8;
             // end
             // Lower 8 bits
-            if (en_reg_pwm_7_0[0]) out[0] <= (pwm_signal) ? en_reg_out_7_0[0] : 1'b0;
-            if (en_reg_pwm_7_0[1]) out[1] <= (pwm_signal) ? en_reg_out_7_0[1] : 1'b0;
-            if (en_reg_pwm_7_0[2]) out[2] <= (pwm_signal) ? en_reg_out_7_0[2] : 1'b0;
-            if (en_reg_pwm_7_0[3]) out[3] <= (pwm_signal) ? en_reg_out_7_0[3] : 1'b0;
-            if (en_reg_pwm_7_0[4]) out[4] <= (pwm_signal) ? en_reg_out_7_0[4] : 1'b0;
-            if (en_reg_pwm_7_0[5]) out[5] <= (pwm_signal) ? en_reg_out_7_0[5] : 1'b0;
-            if (en_reg_pwm_7_0[6]) out[6] <= (pwm_signal) ? en_reg_out_7_0[6] : 1'b0;
-            if (en_reg_pwm_7_0[7]) out[7] <= (pwm_signal) ? en_reg_out_7_0[7] : 1'b0;
+            // if (en_reg_pwm_7_0[0]) out[0] <= (pwm_signal) ? en_reg_out_7_0[0] : 1'b0;
+            // if (en_reg_pwm_7_0[1]) out[1] <= (pwm_signal) ? en_reg_out_7_0[1] : 1'b0;
+            // if (en_reg_pwm_7_0[2]) out[2] <= (pwm_signal) ? en_reg_out_7_0[2] : 1'b0;
+            // if (en_reg_pwm_7_0[3]) out[3] <= (pwm_signal) ? en_reg_out_7_0[3] : 1'b0;
+            // if (en_reg_pwm_7_0[4]) out[4] <= (pwm_signal) ? en_reg_out_7_0[4] : 1'b0;
+            // if (en_reg_pwm_7_0[5]) out[5] <= (pwm_signal) ? en_reg_out_7_0[5] : 1'b0;
+            // if (en_reg_pwm_7_0[6]) out[6] <= (pwm_signal) ? en_reg_out_7_0[6] : 1'b0;
+            // if (en_reg_pwm_7_0[7]) out[7] <= (pwm_signal) ? en_reg_out_7_0[7] : 1'b0;
 
-            // Upper 8 bits
-            if (en_reg_pwm_15_8[0]) out[8] <= (pwm_signal) ? en_reg_out_15_8[0] : 1'b0;
-            if (en_reg_pwm_15_8[1]) out[9] <= (pwm_signal) ? en_reg_out_15_8[1] : 1'b0;
-            if (en_reg_pwm_15_8[2]) out[10] <= (pwm_signal) ? en_reg_out_15_8[2] : 1'b0;
-            if (en_reg_pwm_15_8[3]) out[11] <= (pwm_signal) ? en_reg_out_15_8[3] : 1'b0;
-            if (en_reg_pwm_15_8[4]) out[12] <= (pwm_signal) ? en_reg_out_15_8[4] : 1'b0;
-            if (en_reg_pwm_15_8[5]) out[13] <= (pwm_signal) ? en_reg_out_15_8[5] : 1'b0;
-            if (en_reg_pwm_15_8[6]) out[14] <= (pwm_signal) ? en_reg_out_15_8[6] : 1'b0;
-            if (en_reg_pwm_15_8[7]) out[15] <= (pwm_signal) ? en_reg_out_15_8[7] : 1'b0;
+            // // Upper 8 bits
+            // if (en_reg_pwm_15_8[0]) out[8] <= (pwm_signal) ? en_reg_out_15_8[0] : 1'b0;
+            // if (en_reg_pwm_15_8[1]) out[9] <= (pwm_signal) ? en_reg_out_15_8[1] : 1'b0;
+            // if (en_reg_pwm_15_8[2]) out[10] <= (pwm_signal) ? en_reg_out_15_8[2] : 1'b0;
+            // if (en_reg_pwm_15_8[3]) out[11] <= (pwm_signal) ? en_reg_out_15_8[3] : 1'b0;
+            // if (en_reg_pwm_15_8[4]) out[12] <= (pwm_signal) ? en_reg_out_15_8[4] : 1'b0;
+            // if (en_reg_pwm_15_8[5]) out[13] <= (pwm_signal) ? en_reg_out_15_8[5] : 1'b0;
+            // if (en_reg_pwm_15_8[6]) out[14] <= (pwm_signal) ? en_reg_out_15_8[6] : 1'b0;
+            // if (en_reg_pwm_15_8[7]) out[15] <= (pwm_signal) ? en_reg_out_15_8[7] : 1'b0;
         end
     end
 
