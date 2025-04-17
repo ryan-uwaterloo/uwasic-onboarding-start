@@ -46,12 +46,11 @@ always @(posedge clk or negedge rst_n) begin //asynch reset lol because sclk not
         valid <= txn_count == 0;
         if(txn_count == 15)begin //is r_W
             read_write <= copi_cdc[CDC_LEN-1];
-        end else if(txn_count <= 7) begin //if data
-            data[txn_count[2:0]] <= copi_cdc[CDC_LEN-1]; //msb-first
-        end else begin //is addr
+        end else if(txn_count[3]) begin //is addr
             addr[txn_count[2:0]] <= copi_cdc[CDC_LEN-1];
-            end
-        //end
+        end else begin //if data
+            data[txn_count[2:0]] <= copi_cdc[CDC_LEN-1]; //msb-first
+        end
     end else if (!sclk_cdc[CDC_LEN]) begin
         waiting_next_sclk <= 0;
     end
